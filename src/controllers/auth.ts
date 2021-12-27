@@ -1,7 +1,7 @@
-import { AuthRegisterService } from './../domain/use-case/auth/register';
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { RegisterDTO } from './../DTOs/auth/register';
+import { AuthRegisterService } from './../domain/use-case/auth/register'
+import { Body, Controller, HttpCode, Post } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+import { RegisterDTO } from './../DTOs/auth/register'
 
 @Controller('auth')
 export class AuthController {
@@ -11,6 +11,6 @@ export class AuthController {
   @Post('/register')
   @HttpCode(204)
   register(@Body() registerDto: RegisterDTO): void {
-    this.authRegisterService.registerUser(registerDto);
+    this.authRegisterService.registerUser(registerDto)
   }
 }

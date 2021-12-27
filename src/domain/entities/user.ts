@@ -1,21 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IUser } from './interfaces/user';
+import { ApiProperty } from '@nestjs/swagger'
+import { IUser } from './interfaces/user'
 
 export default class User {
   @ApiProperty()
-  id: number;
+  id: number
   @ApiProperty()
-  name?: string;
+  name?: string
   @ApiProperty()
-  email: string;
+  email: string
   @ApiProperty()
-  password: string;
+  password: string
 
   constructor(user: IUser) {
-    const { id, name, email, password } = user;
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.password = password;
+    const { id, name, email, password } = user
+    this.id = id
+    this.name = name
+    this.email = email
+    this.password = password
   }
 }

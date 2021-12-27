@@ -1,6 +1,6 @@
-import { JoiSchema, JoiSchemaOptions } from 'nestjs-joi';
-import * as Joi from 'joi';
-import { ApiProperty } from '@nestjs/swagger';
+import { JoiSchema, JoiSchemaOptions } from 'nestjs-joi'
+import * as Joi from 'joi'
+import { ApiProperty } from '@nestjs/swagger'
 
 @JoiSchemaOptions({
   allowUnknown: false,
@@ -8,17 +8,17 @@ import { ApiProperty } from '@nestjs/swagger';
 export class RegisterDTO {
   @ApiProperty()
   @JoiSchema(Joi.string().required())
-  name!: string;
+  name!: string
 
   @ApiProperty()
   @JoiSchema(Joi.string().email().required())
-  email!: string;
+  email!: string
 
   @ApiProperty()
   @JoiSchema(Joi.string().required())
-  password!: string;
+  password!: string
 
   @ApiProperty()
   @JoiSchema(Joi.string().required().valid(Joi.ref('password')))
-  confirmPassword!: string;
+  confirmPassword!: string
 }
