@@ -7,3 +7,10 @@ export interface IUserInput {
   email: string
   password: string
 }
+
+
+export interface IUserFilter {
+  id?: number
+  name?: string
+  email?: string
+}

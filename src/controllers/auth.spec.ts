@@ -1,4 +1,4 @@
-import { AuthRegisterService } from './../domain/use-case/auth/register'
+import { AuthService } from '../domain/use-case/auth/auth'
 import { AuthController } from './../controllers/auth'
 import { Test, TestingModule } from '@nestjs/testing'
 
@@ -8,7 +8,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [AuthRegisterService],
+      providers: [AuthService],
     }).compile()
 
     appController = app.get<AuthController>(AuthController)

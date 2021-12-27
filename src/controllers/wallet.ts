@@ -1,4 +1,4 @@
-import { AuthRegisterService } from './../domain/use-case/auth/register'
+import { AuthService } from '../domain/use-case/auth/auth'
 import { Body, Controller, HttpCode, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { WalletInputDTO } from '../DTOs/wallet/input'

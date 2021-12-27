@@ -8,6 +8,7 @@ async function bootstrap() {
     .setTitle('Finance example')
     .setDescription('The finance API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('auth')
     .build()
   const document = SwaggerModule.createDocument(app, config)

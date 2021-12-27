@@ -1,4 +1,4 @@
-import { IUser } from '@/src/domain/entities/interfaces/user'
+import { IUser, IUserFilter, IUserInput } from '@/src/domain/entities/interfaces/user'
 import { Injectable } from '@nestjs/common'
 import UserRepository from '../interfaces/user'
 import { maxBy } from 'lodash'
@@ -17,6 +17,17 @@ export class UserMemoryRepository implements UserRepository {
     }
     this.users.push(newUser)
     console.log(this.users)
-    return new Promise(() => newUser)
+    return new Promise((resolve) => resolve(newUser))
+  }
+
+  async findOne(filter: IUserFilter): Promise<IUser> {
+    console.log(filter, this.users)
+    const { id, name, email } = filter
+    const user = this.users.find(
+      u => u.id === id ||
+      u.email === email ||
+      u.name === name
+    )
+    return new Promise((resolve) => resolve(user))
   }
 }

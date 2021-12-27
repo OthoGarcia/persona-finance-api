@@ -1,4 +1,4 @@
-import { AuthRegisterService } from './domain/use-case/auth/register'
+import { AuthService } from './domain/use-case/auth/auth'
 import { AuthController } from '@/src/controllers/auth'
 import { Module } from '@nestjs/common'
 import { JoiPipeModule } from 'nestjs-joi'
@@ -8,19 +8,15 @@ import { TYPES } from './utils/symbols'
 import { WalletMemoryRepository } from './repositories/memory/wallet'
 import { WalletCreate } from './domain/use-case/wallet/create'
 import { WalletController } from './controllers/wallet'
+import { LocalStrategy } from './domain/use-case/auth/local-strategy'
+import { AuthModule } from './modules/auth'
+import { RepositoryModule } from './modules/repository'
 
 @Module({
-  imports: [JoiPipeModule],
-  controllers: [AuthController, WalletController],
+  imports: [JoiPipeModule, RepositoryModule, AuthModule],
+  controllers: [WalletController],
   providers: [
-    AuthRegisterService,
-    WalletCreate,
-    UserMemoryRepository,
-    WalletMemoryRepository,
-    {
-      provide: TYPES.Repositories,
-      useClass: RepositoryMemoryFactory,
-    },
+    WalletCreate
   ],
 })
 export class AppModule {}
