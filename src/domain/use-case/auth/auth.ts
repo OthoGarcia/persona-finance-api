@@ -3,7 +3,7 @@ import { LoginDTO } from '@/src/DTOs/auth/login'
 import { RegisterDTO } from '@/src/DTOs/auth/register'
 import FactoryAbstractRepository from '@/src/repositories/factory/repository'
 import { TYPES } from '@/src/utils/symbols'
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare, genSalt, hash } from 'bcrypt'
 
@@ -14,6 +14,8 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
   async registerUser(registerDTO: RegisterDTO): Promise<IUser> {
+    const user = await this.repositories.userRepository.findOne({email: registerDTO.email})
+    if(user) throw new ConflictException('Already has an user with this email registered')
     const password = await this.encrypt(registerDTO.password)
     return this.repositories.userRepository.save({ ...registerDTO, password })
   }
