@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IUser } from './interfaces/user'
+import { IUser } from '../../auth/interfaces/auth.interface'
 
 export default class User {
   @ApiProperty()

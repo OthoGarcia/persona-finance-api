@@ -1,11 +1,11 @@
-import { WalletInputDTO } from '@/src/DTOs/wallet/input'
+import { WalletInputDTO } from '@/src/wallet/DTO/input'
 import FactoryAbstractRepository from '@/src/repositories/factory/repository'
 import { TYPES } from '@/src/utils/symbols'
 import { Inject, Injectable } from '@nestjs/common'
-import { IWalletInput } from '../../entities/interfaces/wallet'
+import { IWalletInput } from './interfaces/wallet.interface'
 
 @Injectable()
-export class WalletCreate {
+export class WalletService {
   constructor(
     @Inject(TYPES.Repositories) private repositories: FactoryAbstractRepository,
   ) {}

@@ -1,5 +1,5 @@
-import { AuthService } from '../domain/use-case/auth/auth'
-import { AuthController } from './../controllers/auth'
+import { AuthService } from '../wallet/auth'
+import { AuthController } from './auth.controller.'
 import { Test, TestingModule } from '@nestjs/testing'
 
 describe('AuthController', () => {

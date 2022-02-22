@@ -1,4 +1,4 @@
-import { IUser, IUserFilter, IUserInput } from "@/src/domain/entities/interfaces/user";
+import { IUser, IUserFilter, IUserInput } from "@/src/auth/interfaces/auth.interface";
 
 export default interface UserRepository {
   save(user: IUserInput): Promise<IUser>

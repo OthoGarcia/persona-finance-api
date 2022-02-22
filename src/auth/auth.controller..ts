@@ -1,10 +1,10 @@
-import { AuthService } from '../domain/use-case/auth/auth'
+import { AuthService } from '../wallet/auth'
 import { Body, Controller, Get, HttpCode, Post, Request, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiSecurity, ApiTags } from '@nestjs/swagger'
-import { RegisterDTO } from '@/src/DTOs/auth/register'
-import { LoginDTO } from '../DTOs/auth/login'
-import { LocalAuthGuard } from '../domain/use-case/auth/local-auth.guard'
-import { JwtAuthGuard } from '../domain/use-case/auth/jwt-auth.guard'
+import { RegisterDTO } from './DTO/register-user.dto'
+import { LocalAuthGuard } from './local-auth.guard'
+import { LoginDTO } from './DTO/login.dto'
+import { JwtAuthGuard } from './jwt-auth.guard'
 @Controller('auth')
 export class AuthController {
   constructor(readonly authService: AuthService) {}

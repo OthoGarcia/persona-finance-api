@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { JoiPipeModule } from 'nestjs-joi'
-import { WalletCreate } from './domain/use-case/wallet/create'
-import { WalletController } from './controllers/wallet'
 import { AuthModule } from './modules/auth'
 import { RepositoryTypeormModule } from './modules/repository-typeorm'
 import { RepositoryMemoryModule } from './modules/repository-memory'
+import { WalletService } from './wallet/wallet.service'
+import { WalletController } from './wallet/wallet.controller'
 
 
 const repositories = new Map()
@@ -16,7 +16,7 @@ const RepositoryModule = repositories.get(connectionType)
   imports: [JoiPipeModule, RepositoryModule, AuthModule],
   controllers: [WalletController],
   providers: [
-    WalletCreate
+    WalletService
   ],
 })
 export class AppModule {}

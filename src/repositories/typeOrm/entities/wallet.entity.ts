@@ -1,4 +1,4 @@
-import { IWallet } from '@/src/domain/entities/interfaces/wallet';
+import { IWallet } from '@/src/wallet/interfaces/wallet.interface';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

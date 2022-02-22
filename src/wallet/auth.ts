@@ -1,11 +1,11 @@
-import { IUser, IUserFilter } from '@/src/domain/entities/interfaces/user'
-import { LoginDTO } from '@/src/DTOs/auth/login'
-import { RegisterDTO } from '@/src/DTOs/auth/register'
+import { LoginDTO } from '@/src/auth/DTO/login.dto'
+import { RegisterDTO } from '@/src/auth/DTO/register-user.dto'
 import FactoryAbstractRepository from '@/src/repositories/factory/repository'
 import { TYPES } from '@/src/utils/symbols'
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare, genSalt, hash } from 'bcrypt'
+import { IUser, IUserFilter } from '../auth/interfaces/auth.interface'
 
 @Injectable()
 export class AuthService {

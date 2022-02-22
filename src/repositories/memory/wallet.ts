@@ -1,8 +1,8 @@
-import { IUser } from '@/src/domain/entities/interfaces/user'
+import { IUser } from '@/src/auth/interfaces/auth.interface'
+import { IWallet } from '@/src/wallet/interfaces/wallet.interface'
 import { Injectable } from '@nestjs/common'
 import { maxBy } from 'lodash'
 import WalletRepository from '../interfaces/wallet'
-import { IWallet } from '@/src/domain/entities/interfaces/wallet'
 
 @Injectable()
 export class WalletMemoryRepository implements WalletRepository {

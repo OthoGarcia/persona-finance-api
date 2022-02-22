@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IUser } from './interfaces/user'
-import { IWallet } from './interfaces/wallet'
+import { IUser } from '../../auth/interfaces/auth.interface'
+import { IWallet } from '../../wallet/interfaces/wallet.interface'
 
 export default class Wallet {
   @ApiProperty()
