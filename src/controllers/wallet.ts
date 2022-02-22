@@ -11,7 +11,7 @@ export class WalletController {
   @ApiTags('wallet')
   @Post('')
   @HttpCode(204)
-  register(@Body() walletInputDTO: WalletInputDTO): void {
-    this.walletCreate.create(walletInputDTO)
+  async create(@Body() walletInputDTO: WalletInputDTO): Promise<void> {
+    await this.walletCreate.create(walletInputDTO)
   }
 }

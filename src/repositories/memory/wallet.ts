@@ -20,4 +20,15 @@ export class WalletMemoryRepository implements WalletRepository {
     console.log(this.wallets)
     return new Promise(() => wallet)
   }
+
+  async create(wallet: IWallet): Promise<IUser> {
+    const lastId = maxBy(this.wallets, (w) => w.id)?.id || 0
+    const newWallet = {
+      ...wallet,
+      id: lastId + 1,
+    }
+    this.wallets.push(newWallet)
+    console.log(this.wallets)
+    return new Promise(() => wallet)
+  }
 }

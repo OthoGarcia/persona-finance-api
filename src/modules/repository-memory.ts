@@ -18,4 +18,4 @@ import RepositoryMemoryFactory from '../repositories/factory/memory-repository';
   ],
   exports: [TYPES.Repositories]
 })
-export class RepositoryModule {}
+export class RepositoryMemoryModule {}

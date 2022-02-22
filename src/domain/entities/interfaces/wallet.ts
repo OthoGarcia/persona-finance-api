@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export interface IWallet extends IWalletInput {
   id: number
 }
