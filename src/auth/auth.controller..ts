@@ -1,4 +1,4 @@
-import { AuthService } from '../wallet/auth'
+import { AuthService } from './auth.service'
 import { Body, Controller, Get, HttpCode, Post, Request, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiSecurity, ApiTags } from '@nestjs/swagger'
 import { RegisterDTO } from './DTO/register-user.dto'

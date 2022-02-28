@@ -1,4 +1,4 @@
-import { AuthService } from '../wallet/auth'
+import { AuthService } from './auth.service'
 import { AuthController } from './auth.controller.'
 import { Test, TestingModule } from '@nestjs/testing'
 
