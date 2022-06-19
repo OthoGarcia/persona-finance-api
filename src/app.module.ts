@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { JoiPipeModule } from 'nestjs-joi'
-import { AuthModule } from './modules/auth'
+import { AuthModule } from './auth/auth.module'
 import { WalletService } from './wallet/wallet.service'
 import { WalletController } from './wallet/wallet.controller'
 import { ConfigModule } from '@nestjs/config'

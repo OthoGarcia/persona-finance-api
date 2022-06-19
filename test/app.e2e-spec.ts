@@ -1,24 +1,37 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
-import * as request from 'supertest'
-import { AppModule } from './../src/app.module'
+import * as request from 'supertest';
+import { Test } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import falso from '@ngneat/falso';
+import { AuthModule } from '@/src/auth/auth.module';
+import { RegisterDTO } from '@/src/auth/DTO/register-user.dto';
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication
+describe('Auth', () => {
+  let app: INestApplication;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile()
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [AuthModule],
+    })
+      .compile();
 
-    app = moduleFixture.createNestApplication()
-    await app.init()
-  })
+    app = moduleRef.createNestApplication();
+    await app.init();
+  });
 
-  it('/ (GET)', () => {
+  it(`POST /register`, () => {
+    const password = falso.randPassword()
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!')
-  })
-})
+      .post('/register')
+      .send({
+        name: falso.randFullName(),
+        email: falso.randEmail(),
+        password,
+        confirmPassword: password
+      }as RegisterDTO)
+      .expect(204)
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
+});
