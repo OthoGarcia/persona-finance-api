@@ -1,4 +1,4 @@
-import { IUser } from '@/src/auth/interfaces/auth.interface';
+import { IUser } from '@/auth/interfaces/auth.interface';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

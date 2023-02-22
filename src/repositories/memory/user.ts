@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import UserRepository from '../interfaces/user'
 import { maxBy } from 'lodash'
 import { users } from './data/users'
-import { IUser, IUserFilter } from '@/src/auth/interfaces/auth.interface'
+import { IUser, IUserFilter } from '@/auth/interfaces/auth.interface'
 
 @Injectable()
 export class UserMemoryRepository implements UserRepository {

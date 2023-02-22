@@ -1,4 +1,4 @@
-import { IWalletInput, IWallet } from "@/src/wallet/interfaces/wallet.interface"
+import { IWalletInput, IWallet } from "@/wallet/interfaces/wallet.interface"
 import { AbstractRepository, EntityRepository, Repository } from "typeorm"
 import WalletRepository from "../../interfaces/wallet"
 import { Wallet } from "../entities/wallet.entity"

@@ -5,6 +5,7 @@ import { WalletService } from './wallet/wallet.service'
 import { WalletController } from './wallet/wallet.controller'
 import { ConfigModule } from '@nestjs/config'
 import configuration, { getRepositoryModule } from './config/configuration'
+import { CategoriesModule } from './categories/categories.module';
 
 
 
@@ -14,7 +15,8 @@ import configuration, { getRepositoryModule } from './config/configuration'
     ConfigModule.forRoot({load: [configuration]}),
     JoiPipeModule,
     getRepositoryModule(),
-    AuthModule
+    AuthModule,
+    CategoriesModule
   ],
   controllers: [WalletController],
   providers: [

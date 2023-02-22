@@ -1,6 +1,6 @@
-import { WalletInputDTO } from '@/src/wallet/DTO/input'
-import FactoryAbstractRepository from '@/src/repositories/factory/repository'
-import { TYPES } from '@/src/utils/symbols'
+import { WalletInputDTO } from '@/wallet/DTO/input'
+import FactoryAbstractRepository from '@/repositories/factory/repository'
+import { TYPES } from '@/utils/symbols'
 import { Inject, Injectable } from '@nestjs/common'
 import { IWalletInput } from './interfaces/wallet.interface'
 

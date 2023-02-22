@@ -1,7 +1,7 @@
-import { LoginDTO } from '@/src/auth/DTO/login.dto'
-import { RegisterDTO } from '@/src/auth/DTO/register-user.dto'
-import FactoryAbstractRepository from '@/src/repositories/factory/repository'
-import { TYPES } from '@/src/utils/symbols'
+import { LoginDTO } from '@/auth/DTO/login.dto'
+import { RegisterDTO } from '@/auth/DTO/register-user.dto'
+import FactoryAbstractRepository from '@/repositories/factory/repository'
+import { TYPES } from '@/utils/symbols'
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare, genSalt, hash } from 'bcrypt'
@@ -10,8 +10,8 @@ import { IUser, IUserFilter } from './interfaces/auth.interface'
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(TYPES.Repositories) private repositories: FactoryAbstractRepository,
-    private jwtService: JwtService
+    private readonly jwtService: JwtService,
+    @Inject(TYPES.Repositories) private repositories: FactoryAbstractRepository
   ) {}
   async registerUser(registerDTO: RegisterDTO): Promise<IUser> {
     const user = await this.repositories.userRepository.findOne({email: registerDTO.email})

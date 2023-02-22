@@ -1,7 +1,7 @@
-import { IUserInput, IUser, IUserFilter } from "@/src/auth/interfaces/auth.interface";
+import { IUserInput, IUser, IUserFilter } from "@/auth/interfaces/auth.interface";
 import { AbstractRepository, EntityRepository, Repository } from "typeorm";
 import UserRepository from "../../interfaces/user";
-import { User } from "../entities/user.entity";
+import { User } from "@/users/entities/user.entity";
 
 @EntityRepository(User)
 export class UserTypeOrmRepository extends AbstractRepository<User> implements UserRepository{
@@ -9,16 +9,14 @@ export class UserTypeOrmRepository extends AbstractRepository<User> implements U
 	  return this.repository.save({...user})
   }
 
-  findOne(filter: IUserFilter): Promise<IUser> {
+  findOne(filter: IUserFilter): Promise<IUser | undefined> {
 	  const {
       id,
-      email,
-      name
+      email
     } = filter
     return this.repository.findOne(id, {
       where: [
-        { email },
-        { name }
+        { email }
       ]
     })
  }

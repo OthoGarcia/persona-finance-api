@@ -1,5 +1,5 @@
-import { IUser } from '@/src/auth/interfaces/auth.interface'
-import { IWallet } from '@/src/wallet/interfaces/wallet.interface'
+import { IUser } from '@/auth/interfaces/auth.interface'
+import { IWallet } from '@/wallet/interfaces/wallet.interface'
 import { Injectable } from '@nestjs/common'
 import { maxBy } from 'lodash'
 import WalletRepository from '../interfaces/wallet'

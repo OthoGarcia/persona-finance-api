@@ -14,6 +14,7 @@ export class AuthController {
   @HttpCode(204)
   async register(@Body() registerDto: RegisterDTO): Promise<void> {
     await this.authService.registerUser(registerDto)
+    //TODO execute login on a success registration
   }
 
   @ApiTags('auth')
