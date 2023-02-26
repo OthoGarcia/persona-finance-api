@@ -1,4 +1,4 @@
-import { ConnectionOptions, createConnection } from 'typeorm';
+import { ConnectionOptions, createConnection, DataSource, DataSourceOptions } from 'typeorm';
 import { TYPES } from '../utils/symbols';
 
 const getTypeormConfig = () =>{
@@ -24,12 +24,15 @@ const getTypeormConfig = () =>{
     migrations: [
       __dirname + '/../repositories/typeOrm/migrations{.ts,.js}',
     ]
-  } as ConnectionOptions
+  } as DataSourceOptions
 
 }
 export const databaseProviders = [
   {
-    provide: TYPES.DatabaseConnection,
-    useFactory: async () => await createConnection(getTypeormConfig()),
+    provide: TYPES.DATA_SOURCE,
+    useFactory: async () => {
+      const dataSource = new DataSource(getTypeormConfig())
+      return dataSource.initialize();
+    },
   },
 ];

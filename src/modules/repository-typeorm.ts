@@ -9,8 +9,7 @@ import { Connection } from 'typeorm';
 const buildRpositoryInjection = (typeormRepository) => {
   return {
     provide: typeormRepository,
-    useFactory: (connection: Connection) => connection.getCustomRepository(typeormRepository),
-    inject: [TYPES.DatabaseConnection],
+    inject: [TYPES.DATA_SOURCE],
   }
 }
 
@@ -19,8 +18,8 @@ const buildRpositoryInjection = (typeormRepository) => {
   imports: [],
   controllers: [],
   providers: [
-    { ...buildRpositoryInjection(UserTypeOrmRepository) },
-    { ...buildRpositoryInjection(WalletTypeOrmRepository) },
+    UserTypeOrmRepository,
+    WalletTypeOrmRepository,
     {
       provide: TYPES.Repositories,
       useClass: RepositoryTypeormFactory,

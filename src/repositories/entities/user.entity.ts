@@ -7,11 +7,18 @@ export class User implements IUser{
   id: number;
 
   @Column({ length: 100 })
-  name: string;
+  name?: string;
 
-  @Column({ unique: true, nullable: false })
+  @Column({ length: 100 })
   email: string;
 
-  @Column()
+  @Column({ length: 100 })
   password: string;
+
+  constructor(user: IUser){
+    this.id = user?.id
+    this.name = user?.name
+    this.email = user?.email
+    this.password = user?.password
+  }
 }

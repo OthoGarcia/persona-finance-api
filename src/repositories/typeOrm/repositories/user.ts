@@ -1,25 +1,36 @@
 import { IUserInput, IUser, IUserFilter } from "@/auth/interfaces/auth.interface";
-import { AbstractRepository, EntityRepository, Repository } from "typeorm";
+import { DataSource, EntityRepository, InsertResult, Repository, SaveOptions } from "typeorm";
 import UserRepository from "../../interfaces/user";
-import { User } from "@/users/entities/user.entity";
+import { Inject } from "@nestjs/common";
+import { TYPES } from "@/utils/symbols";
+import { User } from "@/repositories/entities/user.entity";
 
-@EntityRepository(User)
-export class UserTypeOrmRepository extends AbstractRepository<User> implements UserRepository{
-  async save(user: IUserInput): Promise<IUser> {
+export class UserTypeOrmRepository implements UserRepository{
+  private repository: Repository<User>
+  constructor(
+    @Inject(TYPES.DATA_SOURCE) private dataSource: DataSource
+  ) {
+    this.repository = dataSource.getRepository(User)
+  }
+
+  async save(user: IUser): Promise<User> {
 	  return this.repository.save({...user})
   }
 
-  findOne(filter: IUserFilter): Promise<IUser | undefined> {
+  async insert(user: IUserInput): Promise<void> {
+	  this.repository.insert({...user})
+  }
+
+  findOne(filter: IUserFilter): Promise<User | undefined> {
 	  const {
       id,
       email
     } = filter
-    return this.repository.findOne(id, {
+    return this.repository.findOne({
       where: [
         { email }
       ]
     })
  }
 
- get target() { return 'User'}
 }

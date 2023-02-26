@@ -1,16 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IUser } from '../../auth/interfaces/auth.interface'
-import { IWallet } from '../../wallet/interfaces/wallet.interface'
+import { IWallet } from '@/wallet/interfaces/wallet.interface';
+import { ApiProperty } from '@nestjs/swagger';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-export default class Wallet {
+@Entity()
+export class Wallet implements IWallet{
   @ApiProperty()
-  id: number
-  @ApiProperty()
-  name: string
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  constructor(wallet: IWallet) {
-    const { id, name } = wallet
-    this.id = id
-    this.name = name
-  }
+  @ApiProperty()
+  @Column({ length: 100 })
+  name: string;
 }
