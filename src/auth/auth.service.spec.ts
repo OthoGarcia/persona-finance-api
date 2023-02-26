@@ -7,10 +7,10 @@ import { JwtModule } from '@nestjs/jwt'
 import { jwtConstants } from '@/auth/constants'
 import { getRepositoryModule } from '@/config/configuration'
 import UserRepository from '@/repositories/interfaces/user'
-import { UserTypeOrmRepository } from '@/repositories/typeOrm/repositories/user'
-import FactoryAbstractRepository from '@/repositories/factory/repository'
 import { TYPES } from '@/utils/symbols'
 import RepositoryMemoryFactory from '@/repositories/factory/memory-repository'
+import { ConflictException, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { async } from 'rxjs'
 
 describe('AuthService', () => {
   let authService: AuthService
@@ -37,8 +37,8 @@ describe('AuthService', () => {
 
   describe('register', () => {
     const user = {
-      name: 'Otho',
-      email: 'othogar@gmail.com',
+      name: 'test',
+      email: 'test@test.com',
       password: '123113',
       confirmPassword: '12312',
     }
@@ -47,6 +47,34 @@ describe('AuthService', () => {
       const response = await authService.registerUser(user)
       jest.spyOn(userRepository, 'findOne').mockImplementation(() => undefined);
       expect(response).toBe;
+    })
+
+    it('user already exist', async () => {
+      const response = authService.registerUser(user)
+      await expect(response).rejects.toThrowError(ConflictException)
+    })
+  })
+
+  describe('login', () => {
+    const user = {
+      email: 'test@test.com',
+      password: '123113'
+    }
+    it('sucessfull login', async () => {
+      const response = await authService.login(user)
+      expect(response).toHaveProperty('token');
+    })
+
+    it('sucessfull login', async () => {
+      user.password = 'invalid password'
+      const response = authService.login(user)
+      await expect(response).rejects.toThrowError(UnauthorizedException);
+    })
+
+    it('sucessfull login', async () => {
+      user.email = 'invalid@user.com'
+      const response = authService.login(user)
+      await expect(response).rejects.toThrowError(NotFoundException);
     })
   })
 })

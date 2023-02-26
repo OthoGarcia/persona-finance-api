@@ -7,7 +7,6 @@ import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { jwtConstants } from '@/auth/constants'
 import { getRepositoryModule } from '@/config/configuration'
-import { RegisterDTO } from './DTO/register-user.dto'
 
 describe('AuthController', () => {
   let authController: AuthController

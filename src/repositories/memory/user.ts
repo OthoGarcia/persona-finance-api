@@ -18,12 +18,10 @@ export class UserMemoryRepository implements UserRepository {
       id: lastId + 1,
     }
     this.users.push(newUser)
-    console.log(this.users)
     return new Promise((resolve) => resolve( new User(newUser)))
   }
 
   async findOne(filter: IUserFilter): Promise<User | undefined> {
-    console.log(filter, this.users)
     const { id, name, email } = filter
     const user = this.users.find(
       u => u.id === id ||
