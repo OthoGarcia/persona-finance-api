@@ -10,7 +10,6 @@ import UserRepository from '@/repositories/interfaces/user'
 import { TYPES } from '@/utils/symbols'
 import RepositoryMemoryFactory from '@/repositories/factory/memory-repository'
 import { ConflictException, NotFoundException, UnauthorizedException } from '@nestjs/common'
-import { async } from 'rxjs'
 
 describe('AuthService', () => {
   let authService: AuthService

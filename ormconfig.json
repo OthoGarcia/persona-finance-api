@@ -6,10 +6,11 @@
     "password": "root",
     "database": "financial",
     "entities": [
-        "src/repositories/typeOrm/entities/*"
+        "/../**/*.entity{.ts,.js}"
     ],
     "migrations": [
-        "src/repositories/typeOrm/migrations/*"
-    ]
+        "/../**/*.migrations{.ts,.js}"
+    ],
+    "migrationsTableName": "custom_migration_table"
 }
  

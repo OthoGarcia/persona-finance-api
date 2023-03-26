@@ -1,5 +1,6 @@
-import { RepositoryMemoryModule } from "../modules/repository-memory"
-import { RepositoryTypeormModule } from "../modules/repository-typeorm"
+import { RepositoryMemoryModule } from "@/repositories/modules/repository-memory"
+import { RepositoryTypeormModule } from "@/repositories/modules/repository-typeorm"
+
 
 export const getRepositoryModule = () => {
     const repositories = new Map()

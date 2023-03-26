@@ -18,6 +18,7 @@ const getTypeormConfig = () =>{
     username: TYPEORM_DATABASE_USER,
     password: TYPEORM_DATABASE_PASSWORD,
     database: TYPEORM_DATABASE_NAME,
+    synchronize: true,
     entities: [
       __dirname + '/../**/*.entity{.ts,.js}',
     ],

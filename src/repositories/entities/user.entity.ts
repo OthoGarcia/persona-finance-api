@@ -1,5 +1,6 @@
 import { IUser } from '@/auth/interfaces/auth.interface';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from '@/categories/entities/category.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User implements IUser{
@@ -14,6 +15,9 @@ export class User implements IUser{
 
   @Column({ length: 100 })
   password: string;
+
+  @OneToMany(() => Category, (category) => category.parent)
+  categories: Category[]
 
   constructor(user: IUser){
     this.id = user?.id

@@ -1,8 +1,9 @@
+import { TYPES } from '@/utils/symbols';
 import { Global, Module } from '@nestjs/common'
-import { UserMemoryRepository } from '../repositories/memory/user';
-import { WalletMemoryRepository } from '../repositories/memory/wallet';
-import { TYPES } from '../utils/symbols';
-import RepositoryMemoryFactory from '../repositories/factory/memory-repository';
+import RepositoryMemoryFactory from '../factory/memory-repository';
+import { CategoryMemoryRepository } from '../memory/category';
+import { UserMemoryRepository } from '../memory/user';
+import { WalletMemoryRepository } from '../memory/wallet';
 
 @Global()
 @Module({
@@ -11,6 +12,7 @@ import RepositoryMemoryFactory from '../repositories/factory/memory-repository';
   providers: [
     UserMemoryRepository,
     WalletMemoryRepository,
+    CategoryMemoryRepository,
     {
       provide: TYPES.Repositories,
       useClass: RepositoryMemoryFactory,

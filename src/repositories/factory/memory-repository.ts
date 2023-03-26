@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { CategoryMemoryRepository } from '../memory/category'
 import { UserMemoryRepository } from '../memory/user'
 import { WalletMemoryRepository } from '../memory/wallet'
 import FactoryAbstractRepository from './repository'
@@ -9,6 +10,8 @@ export default class RepositoryMemoryFactory
 {
   constructor(
     readonly userRepository: UserMemoryRepository,
-    readonly walletRepository: WalletMemoryRepository
+    readonly walletRepository: WalletMemoryRepository,
+    readonly categoryRepository: CategoryMemoryRepository
+
     ) {}
 }
