@@ -1,26 +1,27 @@
 import { IUser } from '@/auth/interfaces/auth.interface';
-import FactoryAbstractRepository from '@/repositories/factory/repository';
-import { TYPES } from '@/utils/symbols';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
 
 //TODO: change the use from many respositories to only the used ones.
 @Injectable()
 export class CategoriesService {
   constructor(
-    @Inject(TYPES.Repositories) private repositories: FactoryAbstractRepository
+    @InjectRepository(Category) private categoriesRepository: Repository<Category>,
   ) {}
   create(createCategoryDto: CreateCategoryDto, user: IUser) {
-    const existCategory = this.repositories.categoryRepository.findOneByName(createCategoryDto.name)
+    const existCategory = this.categoriesRepository.findOne({where: {name: createCategoryDto.name}})
     if (existCategory)
       throw new BadRequestException(
         'AlreadyExistsException',
         {description: 'Already existis this category for this user'}
       )
-    this.repositories.categoryRepository.insert({
+    this.categoriesRepository.insert({
       ...createCategoryDto,
-      userId: user.id
+      user: {id: user.id}
     })
     return 'This action adds a new category';
   }

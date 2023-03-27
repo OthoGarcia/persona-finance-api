@@ -1,23 +1,24 @@
 import { LoginDTO } from '@/auth/DTO/login.dto'
 import { RegisterDTO } from '@/auth/DTO/register-user.dto'
-import FactoryAbstractRepository from '@/repositories/factory/repository'
-import { TYPES } from '@/utils/symbols'
+import { User } from '@/repositories/entities/user.entity'
+import { InjectRepository } from '@nestjs/typeorm';
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { compare, genSalt, hash } from 'bcrypt'
 import { IUser, IUserFilter } from './interfaces/auth.interface'
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    @Inject(TYPES.Repositories) private repositories: FactoryAbstractRepository
+    @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
   async registerUser(registerDTO: RegisterDTO): Promise<IUser> {
-    const user = await this.repositories.userRepository.findOne({email: registerDTO.email})
+    const user = await this.usersRepository.findOne({ where: { email: registerDTO.email}})
     if(user) throw new ConflictException('Already has an user with this email registered')
     const password = await this.encrypt(registerDTO.password)
-    return this.repositories.userRepository.save({ ...registerDTO, password })
+    return this.usersRepository.save({ ...registerDTO, password })
   }
 
   private async encrypt(word: string) {
@@ -40,7 +41,7 @@ export class AuthService {
   }
 
   private async findAndValidateUser(filter: IUserFilter)  {
-    const user = await this.repositories.userRepository.findOne(filter)
+    const user = await this.usersRepository.findOne({where: {...filter}})
     if (!user) throw new NotFoundException('User not found');
     return user
   }

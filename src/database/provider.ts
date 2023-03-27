@@ -1,7 +1,7 @@
-import { ConnectionOptions, createConnection, DataSource, DataSourceOptions } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { TYPES } from '../utils/symbols';
 
-const getTypeormConfig = () =>{
+export const getTypeormConfig = () =>{
   const {
     TYPEORM_DATABASE,
     TYPEORM_DATABASE_URL,
@@ -37,3 +37,5 @@ export const databaseProviders = [
     },
   },
 ];
+
+export default () => ({});
