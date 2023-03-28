@@ -6,7 +6,10 @@ import { JwtStrategy } from '@/auth/jwt.strategy'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { jwtConstants } from '@/auth/constants'
-import { getRepositoryModule } from '@/config/configuration'
+import configuration, { getTypeormConfig } from '@/database/provider';
+import { ConfigModule } from '@nestjs/config'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { User } from '@/repositories/entities/user.entity'
 
 describe('AuthController', () => {
   let authController: AuthController
@@ -15,12 +18,14 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [
+        ConfigModule.forRoot({load: [configuration]}),
+        TypeOrmModule.forRoot(getTypeormConfig()),
         PassportModule,
         JwtModule.register({
           secret: jwtConstants.secret,
           signOptions: { expiresIn: '60s' },
         }),
-        getRepositoryModule()
+        TypeOrmModule.forFeature([User])
       ],
       controllers: [AuthController],
       providers: [AuthService, LocalStrategy, JwtStrategy]

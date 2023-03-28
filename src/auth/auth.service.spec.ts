@@ -5,32 +5,33 @@ import { JwtStrategy } from '@/auth/jwt.strategy'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { jwtConstants } from '@/auth/constants'
-import { getRepositoryModule } from '@/config/configuration'
-import UserRepository from '@/repositories/interfaces/user'
-import { TYPES } from '@/utils/symbols'
-import RepositoryMemoryFactory from '@/repositories/factory/memory-repository'
+import configuration, { getTypeormConfig } from '@/database/provider';
+import { ConfigModule } from '@nestjs/config'
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
+import { User } from '@/repositories/entities/user.entity'
 import { ConflictException, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { Repository } from 'typeorm'
 
 describe('AuthService', () => {
   let authService: AuthService
-  let repositories: RepositoryMemoryFactory
-  let userRepository: UserRepository
+  let userRepository: Repository<User>
   
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [
+        ConfigModule.forRoot({load: [configuration]}),
+        TypeOrmModule.forRoot(getTypeormConfig()),
         PassportModule,
         JwtModule.register({
           secret: jwtConstants.secret,
           signOptions: { expiresIn: '60s' },
         }),
-        getRepositoryModule()
+        TypeOrmModule.forFeature([User])
       ],
       providers: [AuthService, LocalStrategy, JwtStrategy]
     }).compile()
     
-    repositories = app.get<RepositoryMemoryFactory>(TYPES.Repositories)
-    userRepository = repositories.userRepository
+    userRepository = app.get<Repository<User>>(getRepositoryToken(User))
     authService = app.get<AuthService>(AuthService)
   })
 
