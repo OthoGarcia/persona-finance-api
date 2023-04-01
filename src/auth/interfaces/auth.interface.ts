@@ -1,5 +1,5 @@
 export interface IUser extends IUserInput {
-  id?: number
+  id: number
 }
 
 export interface IUserInput {
