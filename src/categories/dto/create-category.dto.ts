@@ -13,8 +13,4 @@ export class CreateCategoryDto {
   @ApiProperty()
   @JoiSchema(Joi.number())
   parentId?: number
-
-  @JoiSchema(Joi.number())
-  userId?: number
-
 }

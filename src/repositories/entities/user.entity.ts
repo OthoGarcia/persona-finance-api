@@ -18,11 +18,4 @@ export class User implements IUser{
 
   @OneToMany(() => Category, (category) => category.parent)
   categories: Category[]
-
-  constructor(user: IUser){
-    this.id = user?.id
-    this.name = user?.name
-    this.email = user?.email
-    this.password = user?.password
-  }
 }

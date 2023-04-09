@@ -1,4 +1,3 @@
-import { IUser } from '@/auth/interfaces/auth.interface';
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -14,9 +13,8 @@ export class CategoriesController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('/create')
-  create(@Request() req, @Body() createCategoryDto: CreateCategoryDto) {
-    const logedUser = {...req.user} as IUser
-    return this.categoriesService.create(createCategoryDto, logedUser);
+  create(@Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoriesService.create(createCategoryDto);
   }
 
   @Get()

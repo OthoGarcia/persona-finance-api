@@ -1,4 +1,5 @@
 import { IUser } from '@/auth/interfaces/auth.interface';
+import { LoggedUser } from '@/auth/logged-user.injection';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,19 +12,50 @@ import { Category } from './entities/category.entity';
 export class CategoriesService {
   constructor(
     @InjectRepository(Category) private categoriesRepository: Repository<Category>,
+    @Inject(LoggedUser) private loggedUser: LoggedUser
   ) {}
-  create(createCategoryDto: CreateCategoryDto, user: IUser) {
-    const existCategory = this.categoriesRepository.findOne({where: {name: createCategoryDto.name}})
+
+  get user(): IUser{
+    return this.loggedUser.user
+  }
+  
+  async calculateLevel(parentId?: number): Promise<number|undefined> {
+    if (!parentId)
+      return
+    const result = await this.categoriesRepository.query(`
+      WITH RECURSIVE rectree AS (
+        SELECT c.id,
+          c.parentId,
+          c.name
+            FROM category c
+      UNION ALL 
+        SELECT 
+            t.id,
+          t.parentId,
+          t.name
+          FROM category t 
+          JOIN rectree
+            ON t.parentId  = rectree.id
+      ) SELECT COUNT(id) as 'level', id, name  FROM rectree where id = ? group by id, parentId, name;
+      `, [parentId])
+    return result[0]['level']
+  }
+
+  async create(createCategoryDto: CreateCategoryDto): Promise<void> {
+    const calculateLevel = this.calculateLevel(createCategoryDto.parentId)
+    const existCategory = await this.categoriesRepository.findOne({where: {name: createCategoryDto.name, user: this.user}})
     if (existCategory)
       throw new BadRequestException(
         'AlreadyExistsException',
         {description: 'Already existis this category for this user'}
       )
-    this.categoriesRepository.insert({
+    const level = await calculateLevel
+    await this.categoriesRepository.insert({
       ...createCategoryDto,
-      user: {id: user.id}
+      parent: {id: createCategoryDto.parentId},
+      user: {id: this.user.id},
+      level
     })
-    return 'This action adds a new category';
   }
 
   findAll() {
