@@ -18,7 +18,7 @@ export class Category {
   @ManyToOne(() => User, (user) => user.categories)
   user: User
 
-  @ManyToOne(() => Category, (category) => category.children)
+  @ManyToOne(() => Category, (category) => category.children, {nullable: true})
   parent?: Category;
 
   @OneToMany(() => Category, (category) => category.parent)

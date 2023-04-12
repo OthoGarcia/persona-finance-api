@@ -14,6 +14,7 @@ import { CreateCategoryDto } from './dto/create-category.dto'
 import { LoggedUser } from '@/auth/logged-user.injection'
 import { IUser } from "@/auth/interfaces/auth.interface";
 import { BadRequestException } from '@nestjs/common'
+import { CategoryRepository } from './categories.repository'
 
 
 //TODO: fazer o mock o usuario logado
@@ -30,7 +31,8 @@ describe('CategoriesService', () => {
   const mockCategoryRepository = {
     findOne: jest.fn().mockImplementation(dto => Promise.resolve(undefined)),
     insert: jest.fn().mockImplementation(dto => Promise.resolve(undefined)),
-    query: jest.fn().mockImplementationOnce(dto => Promise.resolve([{level: 1}]))
+    query: jest.fn().mockImplementationOnce(dto => Promise.resolve([{level: 1}])),
+    getCategoryLevel: jest.fn().mockImplementationOnce(dto => Promise.resolve([{level: 1}]))
   }
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -48,13 +50,13 @@ describe('CategoriesService', () => {
           useValue: mockLogedUser
         },
         {
-          provide: getRepositoryToken(Category),
+          provide: CategoryRepository,
           useValue: mockCategoryRepository
         }
       ]
     }).compile()
     
-    categoryRepository = app.get<Repository<Category>>(getRepositoryToken(Category))
+    categoryRepository = app.get<Repository<Category>>(CategoryRepository)
     categoryService = app.get<CategoriesService>(CategoriesService)
   })
   const createCategoryDTO: CreateCategoryDto = {

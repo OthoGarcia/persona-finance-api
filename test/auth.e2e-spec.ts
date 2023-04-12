@@ -11,7 +11,6 @@ import { ConfigModule } from '@nestjs/config';
 import configuration, { getTypeormConfig } from '@/database/provider';
 import { JoiPipeModule } from 'nestjs-joi';
 import { assert } from 'console';
-import { response } from 'express';
 
 describe('Auth', () => {
   let app: INestApplication;
@@ -136,6 +135,22 @@ describe('Auth', () => {
       .set('Authorization', `Bearer ${login.body.token}`)
     expect(response.status).toEqual(200)
     expect(response.body.user.email).toEqual(registerDTO.email)
+  });
+
+  it(`GET /profile -> wrong token`, async () => {
+    const login = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: registerDTO.email,
+        password: registerDTO.password
+      })
+    expect(login.status).toEqual(201)
+      
+    const response = await request(app.getHttpServer())
+      .get('/auth/profile')
+      .set('Authorization', `Bearer ${login.body.token}-wrong`)
+    expect(response.status).toEqual(401)
+    expect(response.body.message).toEqual('Unauthorized')
   });
 
   afterAll(async () => {
