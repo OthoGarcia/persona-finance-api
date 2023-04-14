@@ -15,6 +15,7 @@ import { LoggedUser } from '@/auth/logged-user.injection'
 import { IUser } from "@/auth/interfaces/auth.interface";
 import { BadRequestException } from '@nestjs/common'
 import { CategoryRepository } from './categories.repository'
+import { FilterCategoryDto } from './dto/filter-category.dto'
 
 
 //TODO: fazer o mock o usuario logado
@@ -28,11 +29,20 @@ describe('CategoriesService', () => {
       email: falso.randEmail()
     } as IUser
   }
+
+  const mockListCategories = [
+    {
+      id: falso.randNumber(),
+      name: falso.randProductCategory(),
+      level: falso.randNumber()
+    }
+  ] as Category[]
   const mockCategoryRepository = {
     findOne: jest.fn().mockImplementation(dto => Promise.resolve(undefined)),
     insert: jest.fn().mockImplementation(dto => Promise.resolve(undefined)),
     query: jest.fn().mockImplementationOnce(dto => Promise.resolve([{level: 1}])),
-    getCategoryLevel: jest.fn().mockImplementationOnce(dto => Promise.resolve([{level: 1}]))
+    getCategoryLevel: jest.fn().mockImplementationOnce(dto => Promise.resolve([{level: 1}])),
+    find: jest.fn().mockImplementationOnce(dto => Promise.resolve(mockListCategories)),
   }
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -80,6 +90,16 @@ describe('CategoriesService', () => {
       mockCategoryRepository.findOne = jest.fn().mockImplementation(dto => Promise.resolve(createCategoryDTO))
       const response = categoryService.create(createCategoryDTO)
       await expect(response).rejects.toThrowError(BadRequestException);
+    })
+  })
+
+  describe('list', () => {
+    it('list category successfully', async () => {
+      const filterCategoryDto: FilterCategoryDto = {
+
+      }
+      const response = await categoryService.findAll(filterCategoryDto)
+      expect(response).toEqual(expect.arrayContaining(mockListCategories))
     })
   })
 })

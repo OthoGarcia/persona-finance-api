@@ -1,9 +1,10 @@
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { FilterCategoryDto } from './dto/filter-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -12,14 +13,16 @@ export class CategoriesController {
   @ApiTags('categories')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Post('/create')
+  @Post('')
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
 
-  @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  @Get('')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  findAll(@Query() filterCategoryDto: FilterCategoryDto) {
+    return this.categoriesService.findAll(filterCategoryDto);
   }
 
   @Get(':id')

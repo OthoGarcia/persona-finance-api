@@ -4,6 +4,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryRepository } from './categories.repository';
+import { FilterCategoryDto } from './dto/filter-category.dto';
 
 
 @Injectable()
@@ -44,8 +45,13 @@ export class CategoriesService {
     })
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll(filterCategoryDto: FilterCategoryDto) {
+    return this.categoriesRepository.find({
+      where: {
+        user: this.user,
+        ...filterCategoryDto
+      }
+    })
   }
 
   findOne(id: number) {
