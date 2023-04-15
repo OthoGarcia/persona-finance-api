@@ -68,7 +68,10 @@ describe('categories/create', () => {
       .set('Authorization', `Bearer ${token}`)
     expect(createdCategory.body).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({name: createCategoryDTO.name})
+        expect.objectContaining({
+          name: createCategoryDTO.name,
+          level: 0
+        })
       ])
     )
 
@@ -93,7 +96,10 @@ describe('categories/create', () => {
       .set('Authorization', `Bearer ${token}`)
     expect(createdCategory.body).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({name: newCategoryDto.name})
+        expect.objectContaining({
+          name: newCategoryDto.name,
+          level: 1
+        })
       ])
     )
 
@@ -107,8 +113,6 @@ describe('categories/create', () => {
     expect(response.status).toEqual(400)
     expect(response.body.message).toEqual('AlreadyExistsException')
   });
-
-  //TODO: test for level category.
 
   afterAll(async () => {
     await app.close();
